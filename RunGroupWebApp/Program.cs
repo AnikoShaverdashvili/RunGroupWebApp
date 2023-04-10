@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using RunGroupWebApp.Data;
 using RunGroupWebApp.Helpers;
 using RunGroupWebApp.Interface;
+using RunGroupWebApp.Models;
 using RunGroupWebApp.Repository;
 using RunGroupWebApp.Services;
 using System.Net;
@@ -19,6 +23,12 @@ builder.Services.AddScoped<IClubRepository, ClubRepository>();
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,7 +41,8 @@ if (!app.Environment.IsDevelopment())
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-    Seed.SeedData(app);
+    await Seed.SeedUsersAndRolesAsync(app);
+    //Seed.SeedData(app);
 }
 
 
@@ -47,3 +58,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+    

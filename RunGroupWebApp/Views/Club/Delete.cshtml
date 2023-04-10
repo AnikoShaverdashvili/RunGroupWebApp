@@ -1,0 +1,56 @@
+﻿@using RunGroupWebApp.Data.Enum;
+@model Club
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1>Are you sure you want to delete this club?</h1>
+<form method="post" asp-action="Delete" enctype="multipart/form-data">
+    <input type="hidden" value="AddressId" id="AddressId" />
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" type="text" class="form-control" placeholder="Enter title">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <input asp-for="Description" type="text" class="form-control" placeholder="Enter description">
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="ClubCategory">ClubCategory</label>
+        <select asp-for="ClubCategory" class="form-control" asp-items="@Html.GetEnumSelectList<ClubCategory>()">
+            <option>--Select--</option>
+        </select>
+        <span asp-validation-for="ClubCategory" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Street">Street</label>
+        <input asp-for="Address.Street" type="text" class="form-control" placeholder="Enter street">
+        <span asp-validation-for="Address.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.City">City</label>
+        <input asp-for="Address.City" type="text" class="form-control" placeholder="Enter city">
+        <span asp-validation-for="Address.City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.State">State</label>
+        <input asp-for="Address.State" type="text" class="form-control" placeholder="Enter state">
+        <span asp-validation-for="Address.State" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input asp-for="Image" type="file" class="form-control" placeholder=" image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+</form>
+<div class="form-group">
+    <form action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+    </form>
+</div>
